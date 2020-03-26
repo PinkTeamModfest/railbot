@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "techmod",
+  "version": "${version}",
+
+  "name": "Fabric Starter",
+  "icon": "assets/techmod/icon.png",
+  "description": "Pink team tech mod",
+  "license": "MIT",
+  "contact": {
+    "sources": "todo"
+  },
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.pinkteammodfest.techmod.Techmod::INSTANCE"
+    ]
+  },
+  "mixins": [
+    "mixins.starter.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4"
+  }
+}
