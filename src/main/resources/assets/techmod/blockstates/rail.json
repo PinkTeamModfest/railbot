@@ -1,9 +1,6 @@
 {
   "multipart": [
-	{   "when": { "OR": [
-			{ "north" : "true" },
-			{ "north" : "false" }
-		]},
+	{
 		"apply": { "model": "techmod:block/rail_center" }
 	},
 	{   "when": { "north": "true" },
