@@ -1,0 +1,25 @@
+{
+  "multipart": [
+	{
+		"apply": { "model": "railbot:block/rail_center" }
+	},
+	{   "when": { "north": "true" },
+		"apply": { "model": "railbot:block/rail_connector" }
+	},
+	{   "when": { "east": "true" },
+		"apply": { "model": "railbot:block/rail_connector", "y": 90 }
+	},
+	{   "when": { "south": "true" },
+		"apply": { "model": "railbot:block/rail_connector", "y": 180 }
+	},
+	{   "when": { "west": "true" },
+		"apply": { "model": "railbot:block/rail_connector", "y": 270 }
+	},
+	{   "when": { "up": "true" },
+		"apply": { "model": "railbot:block/rail_connector", "x": 90 }
+	},
+	{   "when": { "down": "true" },
+		"apply": { "model": "railbot:block/rail_connector", "x": 270 }
+	}
+  ]
+}

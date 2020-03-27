@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "techmod",
+  "id": "railbot",
   "version": "${version}",
 
-  "name": "Fabric Starter",
-  "icon": "assets/techmod/icon.png",
-  "description": "Pink team tech mod",
+  "name": "Railbot",
+  "icon": "assets/railbot/icon.png",
+  "description": "Robot on rails",
   "license": "MIT",
   "contact": {
     "sources": "todo"
@@ -13,11 +13,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.pinkteammodfest.techmod.Techmod::INSTANCE"
+      "io.github.pinkteammodfest.railbot.Railbot::INSTANCE"
     ]
   },
   "mixins": [
-    "mixins.starter.json"
+    "mixins.railbot.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.4"
