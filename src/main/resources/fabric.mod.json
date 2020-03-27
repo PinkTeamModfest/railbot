@@ -14,6 +14,9 @@
   "entrypoints": {
     "main": [
       "io.github.pinkteammodfest.railbot.Railbot::INSTANCE"
+    ],
+    "client": [
+      "io.github.pinkteammodfest.railbot.client.RailbotClient::INSTANCE"
     ]
   },
   "mixins": [
