@@ -1,0 +1,28 @@
+{
+  "multipart": [
+	{   "when": { "OR": [
+			{ "north" : "true" },
+			{ "north" : "false" }
+		]},
+		"apply": { "model": "techmod:block/rail_center" }
+	},
+	{   "when": { "north": "true" },
+		"apply": { "model": "techmod:block/rail_connector" }
+	},
+	{   "when": { "east": "true" },
+		"apply": { "model": "techmod:block/rail_connector", "y": 90 }
+	},
+	{   "when": { "south": "true" },
+		"apply": { "model": "techmod:block/rail_connector", "y": 180 }
+	},
+	{   "when": { "west": "true" },
+		"apply": { "model": "techmod:block/rail_connector", "y": 270 }
+	},
+	{   "when": { "up": "true" },
+		"apply": { "model": "techmod:block/rail_connector", "x": 90 }
+	},
+	{   "when": { "down": "true" },
+		"apply": { "model": "techmod:block/rail_connector", "x": 270 }
+	}
+  ]
+}
