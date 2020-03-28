@@ -1,6 +1,5 @@
 package io.github.pinkteammodfest.railbot.block;
 
-import io.github.pinkteammodfest.railbot.tag.RailbotBlockTags;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 
-public class RailBlock extends Block {
+public class RailBlock extends Block implements BotRail {
 
   private static final Map<Direction, BooleanProperty> CONNECTIONS;
   private static final ArrayList<VoxelShape> SHAPES;
@@ -72,12 +71,18 @@ public class RailBlock extends Block {
   @Override
   public BlockState getStateForNeighborUpdate(BlockState state, Direction facing,
       BlockState neighborState, IWorld world, BlockPos pos, BlockPos neighborPos) {
-    return state.with(getConnectionProperty(facing), neighborState.getBlock().matches(RailbotBlockTags.RAIL_CONNECTABLE));
+    return state.with(getConnectionProperty(facing),
+        BotRail.shouldConnect(world, neighborPos, neighborState, facing.getOpposite()));
   }
 
   @Override
   protected void appendProperties(Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(RailBlock.CONNECTIONS.values().toArray(new Property<?>[0]));
+  }
+
+  @Override
+  public boolean canConnect(IWorld world, BlockPos pos, BlockState state, Direction from) {
+    return true;
   }
 }

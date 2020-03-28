@@ -20,11 +20,19 @@ public final class RailbotBlocks {
           .build()
   ));
 
+  public static final Block DEPOT_RAIL = register("depot_rail", new DepotRailBlock(
+      FabricBlockSettings.of(Material.ANVIL)
+          .hardness(5)
+          .nonOpaque()
+          .resistance(10)
+          .build()
+  ));
+
   public static final Block COAL_GENERATOR = register("coal_generator", new CoalGeneratorBlock(
-          FabricBlockSettings.of(Material.STONE)
-                  .hardness(5)
-                  .resistance(10)
-                  .build()
+      FabricBlockSettings.of(Material.STONE)
+          .hardness(5)
+          .resistance(10)
+          .build()
   ));
 
 
