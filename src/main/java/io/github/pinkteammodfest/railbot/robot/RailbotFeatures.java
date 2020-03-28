@@ -6,6 +6,8 @@ import net.minecraft.util.registry.Registry;
 
 public class RailbotFeatures {
 
+  public static final RobotFeatureType<?> PLACE_RAIL = register("place_rail", new RobotFeatureType<>());
+
   public static void init() {
     // NO-OP
   }

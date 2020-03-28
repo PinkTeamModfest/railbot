@@ -5,6 +5,8 @@ import io.github.pinkteammodfest.railbot.registry.RailbotRegistry;
 import net.minecraft.util.registry.Registry;
 
 public class RailbotCores {
+  
+  public static RobotCoreType<?> FURNACE_CORE = register("furnace_core", new RobotCoreType<>());
 
   public static void init() {
     // NO-OP
