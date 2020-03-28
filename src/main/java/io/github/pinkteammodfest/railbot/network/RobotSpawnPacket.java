@@ -28,10 +28,8 @@ public final class RobotSpawnPacket implements RailbotPacket {
   private final int pitch;
   private final int yaw;
   private final EntityType<?> entityType;
-  private final RobotCoreType<?> coreType;
-  private final CompoundTag coreTag;
 
-  public RobotSpawnPacket(int id, UUID uuid, double x, double y, double z, float pitch, float yaw, EntityType<?> entityTypeId, RobotCoreType<?> coreTypeId, CompoundTag coreTag) {
+  public RobotSpawnPacket(int id, UUID uuid, double x, double y, double z, float pitch, float yaw, EntityType<?> entityTypeId) {
     this.id = id;
     this.uuid = uuid;
     this.x = x;
@@ -40,21 +38,17 @@ public final class RobotSpawnPacket implements RailbotPacket {
     this.pitch = MathHelper.floor(pitch * 256.0F / 360.0F);
     this.yaw = MathHelper.floor(yaw * 256.0F / 360.0F);
     this.entityType = entityTypeId;
-    this.coreType = coreTypeId;
-    this.coreTag = coreTag;
   }
 
   public RobotSpawnPacket(PacketByteBuf buf) {
     this.id = buf.readVarInt();
     this.uuid = buf.readUuid();
     this.entityType = Registry.ENTITY_TYPE.get(buf.readVarInt());
-    this.coreType = RailbotRegistry.CORE.get(buf.readVarInt());
     this.x = buf.readDouble();
     this.y = buf.readDouble();
     this.z = buf.readDouble();
     this.pitch = buf.readByte();
     this.yaw = buf.readByte();
-    this.coreTag = buf.readCompoundTag();
   }
 
   @Override
@@ -62,13 +56,11 @@ public final class RobotSpawnPacket implements RailbotPacket {
     buf.writeVarInt(this.id);
     buf.writeUuid(this.uuid);
     buf.writeVarInt(Registry.ENTITY_TYPE.getRawId(this.entityType));
-    buf.writeVarInt(RailbotRegistry.CORE.getRawId(this.coreType));
     buf.writeDouble(this.x);
     buf.writeDouble(this.y);
     buf.writeDouble(this.z);
     buf.writeByte(this.pitch);
     buf.writeByte(this.yaw);
-    buf.writeCompoundTag(this.coreTag);
   }
 
   @Override
@@ -79,8 +71,6 @@ public final class RobotSpawnPacket implements RailbotPacket {
   @Override
   public void apply(PacketContext context) {
     ClientWorld world = MinecraftClient.getInstance().world;
-    RobotCore core = coreType.create();
-    core.fromTag(coreTag);
     Entity entity = entityType.create(world);
     if (entity == null) {
       return;
@@ -90,7 +80,6 @@ public final class RobotSpawnPacket implements RailbotPacket {
     entity.yaw = (float) (yaw * 360) / 256.0F;
     entity.setEntityId(id);
     entity.setUuid(uuid);
-    ((RobotEntity) entity).setCore(core);
     world.addEntity(id, entity);
   }
 }

@@ -51,6 +51,12 @@ public class RobotCore implements EnergyStorage {
 
     return compoundTag;
   }
+  
+  public RobotCore copy() {
+    RobotCore copy = new RobotCore(type);
+    copy.setStored(energy);
+    return copy;
+  }
 
   public void fromTag(CompoundTag compoundTag) {
     energy = compoundTag.getDouble("energy");

@@ -19,6 +19,9 @@ public class RobotFeature {
   }
 
   public void fromTag(CompoundTag compoundTag) {
-
+  }
+  
+  public RobotFeature copy() {
+    return new RobotFeature(type);
   }
 }
