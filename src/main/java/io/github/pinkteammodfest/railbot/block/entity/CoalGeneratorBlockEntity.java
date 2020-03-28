@@ -15,7 +15,7 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
 
     private final static double MAX_ENERGY = 10000; // TODO placeholder number
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private double energy = 0;
 
     public CoalGeneratorBlockEntity() {
@@ -49,7 +49,7 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
 
     @Override
     public void setInvStack(int slot, ItemStack stack) {
-        ItemStack itemStack = (ItemStack) this.inventory.get(slot);
+        ItemStack itemStack = this.inventory.get(slot);
         boolean bl = !stack.isEmpty() && stack.isItemEqualIgnoreDamage(itemStack) && ItemStack.areTagsEqual(stack, itemStack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getInvMaxStackAmount()) {
