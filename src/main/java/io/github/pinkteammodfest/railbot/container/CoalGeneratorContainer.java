@@ -73,4 +73,8 @@ public class CoalGeneratorContainer extends Container {
         return itemStack;
     }
 
+    public CoalGeneratorBlockEntity getBlockEntity() {
+        return this.inventory;
+    }
+
 }

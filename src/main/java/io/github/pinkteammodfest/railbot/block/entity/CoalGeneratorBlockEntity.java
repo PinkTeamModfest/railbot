@@ -1,5 +1,7 @@
 package io.github.pinkteammodfest.railbot.block.entity;
 
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -7,20 +9,28 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.DefaultedList;
+import net.minecraft.util.Tickable;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, EnergyStorage {
+public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, EnergyStorage, Tickable, BlockEntityClientSerializable {
 
-    private final static double MAX_ENERGY = 10000; // TODO placeholder number
+    private final static double MAX_ENERGY = 10000; // TODO placeholder numbers
+    private final static double ENERGY_PER_TICK = 2;
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
     private double energy = 0;
+    private double burnTime = 0;
+    private double startBurnTime = 0;
 
     public CoalGeneratorBlockEntity() {
         super(RailbotBlockEntities.COAL_GENERATOR);
     }
+
+
+    // Methods for IInventory
 
     @Override
     public int getInvSize() {
@@ -55,7 +65,6 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
         if (stack.getCount() > this.getInvMaxStackAmount()) {
             stack.setCount(this.getInvMaxStackAmount());
         }
-        // TODO handle burn time updating and such
     }
 
     @Override
@@ -72,19 +81,67 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
         this.inventory.clear();
     }
 
+    // Methods for BlockEntity
+
     @Override
     public void fromTag(CompoundTag tag) {
         super.fromTag(tag);
         Inventories.fromTag(tag, inventory);
         energy = tag.getDouble("energy");
+        burnTime = tag.getDouble("burntime");
+        startBurnTime = tag.getDouble("startburntime");
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         Inventories.toTag(tag, inventory);
         tag.putDouble("energy", energy);
+        tag.putDouble("burntime", burnTime);
+        tag.putDouble("startburntime", startBurnTime);
         return super.toTag(tag);
     }
+
+
+    // Methods for Tickable
+
+    @Override
+    public void tick() {
+        if (!this.world.isClient) {
+            boolean burning = burnTime > 0;
+            if (burning) {
+                setStored(getStored(null) + ENERGY_PER_TICK);
+                this.burnTime -= 1;
+            } else if (getStored(null) <= getMaxStoredPower() && !this.inventory.get(0).isEmpty()) {
+                ItemStack fuel = this.inventory.get(0);
+                burnTime = AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(fuel.getItem(), 0);
+                fuel.decrement(1);
+                this.inventory.set(0, fuel);
+                this.startBurnTime = burnTime;
+            }
+            this.markDirty();
+            this.sync();
+        }
+
+    }
+
+    // Methods for BlockEntityClientSerializable
+
+    @Override
+    public void fromClientTag(CompoundTag tag) {
+        this.energy = tag.getDouble("energy");
+        this.burnTime = tag.getDouble("burntime");
+        this.startBurnTime = tag.getDouble("startburntime");
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag tag) {
+        tag.putDouble("energy", energy);
+        tag.putDouble("burntime", burnTime);
+        tag.putDouble("startburntime", startBurnTime);
+        return tag;
+    }
+
+    // Methods for EnergyStorage
 
     @Override
     public double getStored(EnergySide energySide) {
@@ -105,4 +162,24 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
     public EnergyTier getTier() {
         return EnergyTier.LOW; // TODO placeholder
     }
+
+    // Getters/Setters
+
+    public boolean isBurning() {
+        return burnTime > 0;
+    }
+
+    public double getBurnTime() {
+        return burnTime;
+    }
+
+    public void setBurnTime(double newBurnTime) {
+        burnTime = newBurnTime;
+    }
+
+    public double getStartBurnTime() {
+        return startBurnTime;
+    }
+
+
 }
