@@ -1,6 +1,8 @@
 package io.github.pinkteammodfest.railbot.robot;
 
+import io.github.pinkteammodfest.railbot.registry.RailbotRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Identifier;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
@@ -12,6 +14,11 @@ public class RobotCore implements EnergyStorage {
 
   public RobotCore(RobotCoreType<?> type) {
     this.type = type;
+  }
+
+  public RobotCore(CompoundTag compoundTag) {
+    this.type = RailbotRegistry.CORE.get(new Identifier(compoundTag.getString("type")));
+    energy = compoundTag.getDouble("energy");
   }
   
   public RobotCoreType<?> getType() {
@@ -39,6 +46,7 @@ public class RobotCore implements EnergyStorage {
   }
 
   public CompoundTag toTag(CompoundTag compoundTag) {
+    compoundTag.putString("type", RailbotRegistry.CORE.getId(type).toString());
     compoundTag.putDouble("energy", energy);
 
     return compoundTag;

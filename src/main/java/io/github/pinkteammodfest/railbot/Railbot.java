@@ -1,6 +1,7 @@
 package io.github.pinkteammodfest.railbot;
 
 import io.github.pinkteammodfest.railbot.block.RailbotBlocks;
+import io.github.pinkteammodfest.railbot.entity.RailbotEntities;
 import io.github.pinkteammodfest.railbot.network.RailbotNetworking;
 import io.github.pinkteammodfest.railbot.registry.RailbotRegistry;
 import io.github.pinkteammodfest.railbot.robot.RailbotCores;
@@ -32,6 +33,7 @@ public enum Railbot implements ModInitializer {
     RailbotRegistry.init();
     RailbotCores.init();
     RailbotFeatures.init();
+    RailbotEntities.init();
     RailbotNetworking.handleServerboundPackets();
   }
 }
