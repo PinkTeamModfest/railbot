@@ -1,5 +1,6 @@
 package io.github.pinkteammodfest.railbot.block;
 
+import io.github.pinkteammodfest.railbot.tag.RailbotBlockTags;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class RailBlock extends Block {
   @Override
   public BlockState getStateForNeighborUpdate(BlockState state, Direction facing,
       BlockState neighborState, IWorld world, BlockPos pos, BlockPos neighborPos) {
-    return state.with(getConnectionProperty(facing), neighborState.getBlock() instanceof RailBlock);
+    return state.with(getConnectionProperty(facing), neighborState.getBlock().matches(RailbotBlockTags.RAIL_CONNECTABLE));
   }
 
   @Override
