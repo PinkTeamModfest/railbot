@@ -1,16 +1,16 @@
 package io.github.pinkteammodfest.railbot.container;
 
-import io.github.pinkteammodfest.railbot.block.entity.CoalGeneratorBlockEntity;
+import io.github.pinkteammodfest.railbot.block.entity.GeneratorBlockEntity;
 import net.minecraft.container.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 
-public class CoalGeneratorContainer extends Container {
+public class GeneratorContainer extends Container {
 
-    private final CoalGeneratorBlockEntity inventory;
+    private final GeneratorBlockEntity inventory;
 
-    public CoalGeneratorContainer(int syncId, PlayerInventory playerInventory, CoalGeneratorBlockEntity inventory) {
+    public GeneratorContainer(int syncId, PlayerInventory playerInventory, GeneratorBlockEntity inventory) {
         super(null, syncId);
 
         this.inventory = inventory;
@@ -73,7 +73,7 @@ public class CoalGeneratorContainer extends Container {
         return itemStack;
     }
 
-    public CoalGeneratorBlockEntity getBlockEntity() {
+    public GeneratorBlockEntity getBlockEntity() {
         return this.inventory;
     }
 

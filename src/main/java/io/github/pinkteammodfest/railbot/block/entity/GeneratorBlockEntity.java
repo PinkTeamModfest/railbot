@@ -1,5 +1,7 @@
 package io.github.pinkteammodfest.railbot.block.entity;
 
+import io.github.pinkteammodfest.railbot.block.GeneratorBlock;
+import io.github.pinkteammodfest.railbot.block.RailbotBlocks;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,7 +16,7 @@ import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, EnergyStorage, Tickable, BlockEntityClientSerializable {
+public class GeneratorBlockEntity extends BlockEntity implements Inventory, EnergyStorage, Tickable, BlockEntityClientSerializable {
 
     private final static double MAX_ENERGY = 10000; // TODO placeholder numbers
     private final static double ENERGY_PER_TICK = 2;
@@ -25,8 +27,8 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
     private double burnTime = 0;
     private double startBurnTime = 0;
 
-    public CoalGeneratorBlockEntity() {
-        super(RailbotBlockEntities.COAL_GENERATOR);
+    public GeneratorBlockEntity() {
+        super(RailbotBlockEntities.GENERATOR);
     }
 
 
@@ -69,7 +71,7 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
 
     @Override
     public boolean canPlayerUseInv(PlayerEntity player) {
-        if (this.world.getBlockEntity(this.pos) != this) {
+        if (this.world != null && this.world.getBlockEntity(this.pos) != this) {
             return false;
         } else {
             return player.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
@@ -106,17 +108,22 @@ public class CoalGeneratorBlockEntity extends BlockEntity implements Inventory, 
 
     @Override
     public void tick() {
-        if (!this.world.isClient) {
+        if (this.world != null && !this.world.isClient) {
             boolean burning = burnTime > 0;
             if (burning) {
                 setStored(getStored(null) + ENERGY_PER_TICK);
                 this.burnTime -= 1;
+                if(this.burnTime == 0 ) {
+                    this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(GeneratorBlock.ON, false));
+                }
             } else if (getStored(null) <= getMaxStoredPower() && !this.inventory.get(0).isEmpty()) {
                 ItemStack fuel = this.inventory.get(0);
                 burnTime = AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(fuel.getItem(), 0);
                 fuel.decrement(1);
                 this.inventory.set(0, fuel);
                 this.startBurnTime = burnTime;
+                this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(GeneratorBlock.ON, true));
+
             }
             this.markDirty();
             this.sync();

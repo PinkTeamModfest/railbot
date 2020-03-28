@@ -28,7 +28,7 @@ public final class RailbotBlocks {
           .build()
   ));
 
-  public static final Block COAL_GENERATOR = register("coal_generator", new CoalGeneratorBlock(
+  public static final Block GENERATOR = register("generator", new GeneratorBlock(
       FabricBlockSettings.of(Material.STONE)
           .hardness(5)
           .resistance(10)

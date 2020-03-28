@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "block/iron_block",
+    "front": "railbot:block/generator_front_on",
+    "side": "block/iron_block"
+  }
+}
+

@@ -1,0 +1,7 @@
+
+{
+  "variants": {
+    "on=false": { "model": "railbot:block/generator" },
+    "on=true": { "model": "railbot:block/generator_on" }
+  }
+}
