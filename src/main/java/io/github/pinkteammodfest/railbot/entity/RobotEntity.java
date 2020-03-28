@@ -59,12 +59,12 @@ public class RobotEntity extends Entity {
     this.core = core;
   }
 
-  public void getCoreEnergy() {
-    Energy.of(core).getEnergy();
+  public double getCoreEnergy() {
+    return Energy.of(core).getEnergy();
   }
 
-  public void getMaxCoreEnergy() {
-    Energy.of(core).getMaxStored();
+  public double getMaxCoreEnergy() {
+    return Energy.of(core).getMaxStored();
   }
 
   public void setCoreEnergy(double amount) {
