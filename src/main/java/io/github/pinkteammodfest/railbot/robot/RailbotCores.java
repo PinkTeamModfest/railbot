@@ -10,7 +10,7 @@ public class RailbotCores {
     // NO-OP
   }
 
-  static <T extends RobotCore> T register(String name, T core) {
+  static <T extends RobotCoreType<?>> T register(String name, T core) {
     return Registry.register(RailbotRegistry.CORE, Railbot.id(name), core);
   }
 }

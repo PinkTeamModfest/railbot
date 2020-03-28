@@ -10,7 +10,7 @@ public class RailbotFeatures {
     // NO-OP
   }
 
-  static <T extends RobotFeature> T register(String name, T feature) {
+  static <T extends RobotFeatureType<?>> T register(String name, T feature) {
     return Registry.register(RailbotRegistry.FEATURE, Railbot.id(name), feature);
   }
 }
