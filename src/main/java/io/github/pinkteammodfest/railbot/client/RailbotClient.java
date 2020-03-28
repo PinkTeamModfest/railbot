@@ -1,5 +1,6 @@
 package io.github.pinkteammodfest.railbot.client;
 
+import io.github.pinkteammodfest.railbot.network.RailbotNetworking;
 import net.fabricmc.api.ClientModInitializer;
 
 public enum RailbotClient implements ClientModInitializer {
@@ -7,5 +8,6 @@ public enum RailbotClient implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
+    RailbotNetworking.handleClientboundPackets();
   }
 }
