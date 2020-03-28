@@ -31,7 +31,7 @@ public final class RailbotBlocks {
   public static final Block GENERATOR = register("generator", new GeneratorBlock(
       FabricBlockSettings.of(Material.STONE)
           .hardness(5)
-          .resistance(10)
+          .resistance(10).lightLevel(13)
           .build()
   ));
 

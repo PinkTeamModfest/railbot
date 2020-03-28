@@ -4,28 +4,19 @@ import io.github.pinkteammodfest.railbot.Railbot;
 import io.github.pinkteammodfest.railbot.block.entity.GeneratorBlockEntity;
 import io.github.pinkteammodfest.railbot.container.RailbotContainers;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class GeneratorBlock extends BlockWithEntity {
+public class GeneratorBlock extends AbstractFurnaceBlock {
 
-    public static final BooleanProperty ON = BooleanProperty.of("on");
 
     public GeneratorBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(GeneratorBlock.ON, false));
     }
 
     @Override
@@ -35,9 +26,16 @@ public class GeneratorBlock extends BlockWithEntity {
 
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
-        builder.add(GeneratorBlock.ON);
+    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof GeneratorBlockEntity) {
+                ItemScatterer.spawn(world, pos, (GeneratorBlockEntity)blockEntity);
+                world.updateHorizontalAdjacent(pos, this);
+            }
+
+            super.onBlockRemoved(state, world, pos, newState, moved);
+        }
     }
 
     @Override
@@ -45,13 +43,14 @@ public class GeneratorBlock extends BlockWithEntity {
         return new GeneratorBlockEntity();
     }
 
+
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected void openContainer(World world, BlockPos pos, PlayerEntity player) {
         if (!world.isClient) {
             ContainerProviderRegistry.INSTANCE.openContainer(Railbot.id(RailbotContainers.GENERATOR_ID), player, (buf) -> buf.writeBlockPos(pos));
         }
-        return ActionResult.SUCCESS;
     }
+
 }
 
 

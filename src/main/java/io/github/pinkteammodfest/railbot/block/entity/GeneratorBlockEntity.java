@@ -1,8 +1,8 @@
 package io.github.pinkteammodfest.railbot.block.entity;
 
-import io.github.pinkteammodfest.railbot.block.GeneratorBlock;
 import io.github.pinkteammodfest.railbot.block.RailbotBlocks;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -114,7 +114,7 @@ public class GeneratorBlockEntity extends BlockEntity implements Inventory, Ener
                 setStored(getStored(null) + ENERGY_PER_TICK);
                 this.burnTime -= 1;
                 if(this.burnTime == 0 ) {
-                    this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(GeneratorBlock.ON, false));
+                    this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(AbstractFurnaceBlock.LIT, false));
                 }
             } else if (getStored(null) <= getMaxStoredPower() && !this.inventory.get(0).isEmpty()) {
                 ItemStack fuel = this.inventory.get(0);
@@ -122,7 +122,7 @@ public class GeneratorBlockEntity extends BlockEntity implements Inventory, Ener
                 fuel.decrement(1);
                 this.inventory.set(0, fuel);
                 this.startBurnTime = burnTime;
-                this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(GeneratorBlock.ON, true));
+                this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(AbstractFurnaceBlock.LIT, true));
 
             }
             this.markDirty();

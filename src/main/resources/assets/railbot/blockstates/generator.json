@@ -1,7 +1,7 @@
 
 {
   "variants": {
-    "on=false": { "model": "railbot:block/generator" },
-    "on=true": { "model": "railbot:block/generator_on" }
+    "lit=false": { "model": "railbot:block/generator" },
+    "lit=true": { "model": "railbot:block/generator_on" }
   }
 }
