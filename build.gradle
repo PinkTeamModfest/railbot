@@ -17,7 +17,7 @@ minecraft {
 
 repositories {
 	mavenCentral()
-	maven { url "http://maven.fabricmc.net/" } // Fabric maven - home of Fabric API and ModMenu
+	maven { url "https://maven.fabricmc.net/" } // Fabric maven - home of Fabric API and ModMenu
 	//maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
 	//maven { url "https://maven.abusedmaster.xyz" } // NerdHub maven - home of Cardinal Components
 }
