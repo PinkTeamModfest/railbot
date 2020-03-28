@@ -1,0 +1,6 @@
+
+{
+  "variants": {
+    "": { "model": "railbot:block/coal_generator" }
+  }
+}

@@ -20,6 +20,14 @@ public final class RailbotBlocks {
           .build()
   ));
 
+  public static final Block COAL_GENERATOR = register("coal_generator", new CoalGeneratorBlock(
+          FabricBlockSettings.of(Material.STONE)
+                  .hardness(5)
+                  .resistance(10)
+                  .build()
+  ));
+
+
   static <T extends Block> T register(String name, T block, Item.Settings settings) {
     return register(name, block, new BlockItem(block, settings));
   }
