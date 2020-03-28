@@ -3,13 +3,19 @@ package io.github.pinkteammodfest.railbot.network;
 import io.netty.buffer.Unpooled;
 import java.util.function.Function;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.network.PacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.minecraft.network.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.Util;
 
 public final class RailbotNetworking {
+
+  public static Packet<?> toPacket(PacketRegistry registry, RailbotPacket packet) {
+    return registry.toPacket(packet.getChannel(), Util.make(new PacketByteBuf(Unpooled.buffer()), packet::toBuf));
+  }
 
   public static void sendToServer(RailbotPacket packet) {
     ClientSidePacketRegistry.INSTANCE.sendToServer(packet.getChannel(), Util.make(new PacketByteBuf(Unpooled.buffer()), packet::toBuf));
