@@ -100,7 +100,7 @@ public class RobotEntity extends Entity {
 
   @Override
   public Packet<?> createSpawnPacket() {
-    RobotSpawnPacket packet = new RobotSpawnPacket(getEntityId(), getUuid(), getX(), getY(), getZ(), pitch, yaw, getType());
+    RobotSpawnPacket packet = new RobotSpawnPacket(getEntityId(), getUuid(), getX(), getY(), getZ(), pitch, yaw, getType(), getCore().getType(), getCore().toTag(new CompoundTag()));
     return RailbotNetworking.toPacket(ServerSidePacketRegistry.INSTANCE, packet);
   }
 }
