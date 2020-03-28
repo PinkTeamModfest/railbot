@@ -1,6 +1,5 @@
 package io.github.pinkteammodfest.railbot.block.entity;
 
-import io.github.pinkteammodfest.railbot.block.RailbotBlocks;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -21,7 +20,7 @@ public class GeneratorBlockEntity extends BlockEntity implements Inventory, Ener
     private final static double MAX_ENERGY = 10000; // TODO placeholder numbers
     private final static double ENERGY_PER_TICK = 2;
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
 
     private double energy = 0;
     private double burnTime = 0;
@@ -114,15 +113,15 @@ public class GeneratorBlockEntity extends BlockEntity implements Inventory, Ener
                 setStored(getStored(null) + ENERGY_PER_TICK);
                 this.burnTime -= 1;
                 if(this.burnTime == 0 ) {
-                    this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(AbstractFurnaceBlock.LIT, false));
+                    this.world.setBlockState(this.pos, world.getBlockState(pos).with(AbstractFurnaceBlock.LIT, false));
                 }
-            } else if (getStored(null) <= getMaxStoredPower() && !this.inventory.get(0).isEmpty()) {
+            } else if (getStored(null) < getMaxStoredPower() && !this.inventory.get(0).isEmpty()) {
                 ItemStack fuel = this.inventory.get(0);
                 burnTime = AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(fuel.getItem(), 0);
                 fuel.decrement(1);
                 this.inventory.set(0, fuel);
                 this.startBurnTime = burnTime;
-                this.world.setBlockState(this.pos, RailbotBlocks.GENERATOR.getDefaultState().with(AbstractFurnaceBlock.LIT, true));
+                this.world.setBlockState(this.pos, world.getBlockState(pos).with(AbstractFurnaceBlock.LIT, true));
 
             }
             this.markDirty();

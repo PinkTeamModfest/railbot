@@ -1,6 +1,7 @@
 package io.github.pinkteammodfest.railbot.container;
 
 import io.github.pinkteammodfest.railbot.block.entity.GeneratorBlockEntity;
+import io.github.pinkteammodfest.railbot.container.slot.BatterySlot;
 import io.github.pinkteammodfest.railbot.container.slot.FuelSlot;
 import net.minecraft.container.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,7 @@ public class GeneratorContainer extends Container {
         this.inventory = inventory;
 
         this.addSlot(new FuelSlot(inventory, 0, 56, 53));
+        this.addSlot(new BatterySlot(inventory, 1, 56, 17));
 
         int k;
         for (k = 0; k < 3; ++k) {
@@ -46,14 +48,10 @@ public class GeneratorContainer extends Container {
             ItemStack itemStack2 = slot.getStack();
             itemStack = itemStack2.copy();
 
-            if (invSlot != 0) {
-                if (!this.insertItem(itemStack2, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else {
-                if (!this.insertItem(itemStack2, 1, 37, false)) {
-                    return ItemStack.EMPTY;
-                }
+            if (invSlot != 0 && !this.insertItem(itemStack2, 0, 2, false)) {
+                return ItemStack.EMPTY;
+            } else if(!this.insertItem(itemStack2, 2, 38, false)) {
+                return ItemStack.EMPTY;
             }
 
             if (itemStack2.isEmpty()) {
