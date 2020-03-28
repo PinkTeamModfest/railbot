@@ -16,10 +16,10 @@
 		"apply": { "model": "railbot:block/rail_connector", "y": 270 }
 	},
 	{   "when": { "up": "true" },
-		"apply": { "model": "railbot:block/rail_connector", "x": 90 }
+		"apply": { "model": "railbot:block/rail_connector", "x": 270 }
 	},
 	{   "when": { "down": "true" },
-		"apply": { "model": "railbot:block/rail_connector", "x": 270 }
+		"apply": { "model": "railbot:block/rail_connector", "x": 90 }
 	}
   ]
 }
