@@ -2,6 +2,7 @@ package io.github.pinkteammodfest.railbot;
 
 import io.github.pinkteammodfest.railbot.block.RailbotBlocks;
 import io.github.pinkteammodfest.railbot.network.RailbotNetworking;
+import io.github.pinkteammodfest.railbot.registry.RailbotRegistry;
 import io.github.pinkteammodfest.railbot.robot.RailbotCores;
 import io.github.pinkteammodfest.railbot.robot.RailbotFeatures;
 import net.fabricmc.api.ModInitializer;
@@ -28,6 +29,7 @@ public enum Railbot implements ModInitializer {
   @Override
   public void onInitialize() {
     RailbotBlocks.init();
+    RailbotRegistry.init();
     RailbotCores.init();
     RailbotFeatures.init();
     RailbotNetworking.handleServerboundPackets();
