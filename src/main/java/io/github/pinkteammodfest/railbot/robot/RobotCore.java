@@ -7,10 +7,15 @@ import team.reborn.energy.EnergyTier;
 
 public class RobotCore implements EnergyStorage {
 
+  protected final RobotCoreType<?> type;
   private double energy = 0;
 
-  public RobotCore() {
-
+  public RobotCore(RobotCoreType<?> type) {
+    this.type = type;
+  }
+  
+  public RobotCoreType<?> getType() {
+    return type;
   }
 
   @Override

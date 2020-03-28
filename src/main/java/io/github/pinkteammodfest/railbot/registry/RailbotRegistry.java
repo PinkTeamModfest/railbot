@@ -2,19 +2,20 @@ package io.github.pinkteammodfest.railbot.registry;
 
 import io.github.pinkteammodfest.railbot.Railbot;
 import io.github.pinkteammodfest.railbot.robot.RobotCore;
+import io.github.pinkteammodfest.railbot.robot.RobotCoreType;
 import io.github.pinkteammodfest.railbot.robot.RobotFeature;
+import io.github.pinkteammodfest.railbot.robot.RobotFeatureType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 
-public class RailbotRegistry {
+public final class RailbotRegistry {
 
-  public static DefaultedRegistry<RobotCore> CORE = register("core", new DefaultedRegistry<>("furnace_core"));
-  public static DefaultedRegistry<RobotFeature> FEATURE = register("feature", new DefaultedRegistry<>("place_rail"));
+  public static DefaultedRegistry<RobotCoreType<?>> CORE = register("core", new DefaultedRegistry<>(Railbot.id("furnace_core").toString()));
+  public static DefaultedRegistry<RobotFeatureType<?>> FEATURE = register("feature", new DefaultedRegistry<>(Railbot.id("place_rail").toString()));
 
-  private static <T, R extends MutableRegistry<T>> R register(String registryName, R mutableRegistry) {
-    Identifier registryIdentifier = new Identifier(Railbot.ID, registryName);
-    return Registry.REGISTRIES.add(registryIdentifier, mutableRegistry);
+  private static <R extends MutableRegistry<?>> R register(String registryName, R mutableRegistry) {
+    return Registry.REGISTRIES.add(Railbot.id(registryName), mutableRegistry);
   }
 }
