@@ -71,15 +71,7 @@ public class RailBlock extends Block {
   @Override
   public BlockState getStateForNeighborUpdate(BlockState state, Direction facing,
       BlockState neighborState, IWorld world, BlockPos pos, BlockPos neighborPos) {
-    BlockState newState = state;
-
-    if (neighborState.getBlock() instanceof RailBlock) {
-      newState = newState.with(getConnectionProperty(facing), true);
-    } else {
-      newState = newState.with(getConnectionProperty(facing), false);
-    }
-
-    return newState;
+    return state.with(getConnectionProperty(facing), neighborState.getBlock() instanceof RailBlock);
   }
 
   @Override
