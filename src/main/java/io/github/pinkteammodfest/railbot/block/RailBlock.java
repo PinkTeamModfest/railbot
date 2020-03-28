@@ -6,15 +6,18 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
 public class RailBlock extends Block implements BotRail {
 
@@ -66,6 +69,21 @@ public class RailBlock extends Block implements BotRail {
     }
 
     return shape;
+  }
+
+  @Override
+  public BlockState getPlacementState(ItemPlacementContext ctx) {
+    World world = ctx.getWorld();
+    BlockPos pos = ctx.getBlockPos();
+    BlockPos.Mutable neighborPos = new Mutable();
+    BlockState state = getDefaultState();
+    for (Map.Entry<Direction, BooleanProperty> entry : CONNECTIONS.entrySet()) {
+      Direction direction = entry.getKey();
+      neighborPos.set(pos).setOffset(direction);
+      BooleanProperty property = entry.getValue();
+      state = state.with(property, BotRail.shouldConnect(world, neighborPos, world.getBlockState(neighborPos), direction.getOpposite()));
+    }
+    return state;
   }
 
   @Override

@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -48,6 +49,11 @@ public class DepotRailBlock extends Block implements BotRail {
   public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos,
       EntityContext context) {
     return SHAPES.get(state.get(AXIS));
+  }
+
+  @Override
+  public BlockState getPlacementState(ItemPlacementContext ctx) {
+    return getDefaultState().with(AXIS, ctx.getPlayerLookDirection().getAxis());
   }
 
   @Override
