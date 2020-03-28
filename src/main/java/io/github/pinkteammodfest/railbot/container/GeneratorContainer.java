@@ -1,6 +1,7 @@
 package io.github.pinkteammodfest.railbot.container;
 
 import io.github.pinkteammodfest.railbot.block.entity.GeneratorBlockEntity;
+import io.github.pinkteammodfest.railbot.container.slot.FuelSlot;
 import net.minecraft.container.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,9 +16,7 @@ public class GeneratorContainer extends Container {
 
         this.inventory = inventory;
 
-
-        // TODO this should be restricted to fuel
-        this.addSlot(new Slot(inventory, 0, 56, 53));
+        this.addSlot(new FuelSlot(inventory, 0, 56, 53));
 
         int k;
         for (k = 0; k < 3; ++k) {
