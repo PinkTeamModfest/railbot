@@ -9,22 +9,24 @@ import net.minecraft.block.entity.BlockEntity;
 public class RailbotContainers {
 
 
-    public static final String GENERATOR_ID = "generator_container";
+  public static final String GENERATOR_ID = "generator_container";
 
 
-    public static void init() {
-        ContainerProviderRegistry.INSTANCE.registerFactory(Railbot.id(GENERATOR_ID), (syncId, identifier, player, buf) -> {
-            BlockEntity blockEntity = player.world.getBlockEntity(buf.readBlockPos());
-            if(blockEntity instanceof GeneratorBlockEntity) {
-                return new GeneratorContainer(syncId, player.inventory, (GeneratorBlockEntity) blockEntity);
-            } else { // should only occur on malformed packets
-                return new GeneratorContainer(syncId, player.inventory, new GeneratorBlockEntity());
-            }
+  public static void init() {
+    ContainerProviderRegistry.INSTANCE
+        .registerFactory(Railbot.id(GENERATOR_ID), (syncId, identifier, player, buf) -> {
+          BlockEntity blockEntity = player.world.getBlockEntity(buf.readBlockPos());
+          if (blockEntity instanceof GeneratorBlockEntity) {
+            return new GeneratorContainer(syncId, player.inventory,
+                (GeneratorBlockEntity) blockEntity);
+          } else { // should only occur on malformed packets
+            return new GeneratorContainer(syncId, player.inventory, new GeneratorBlockEntity());
+          }
         });
-    }
+  }
 
-    private RailbotContainers() {
-    }
+  private RailbotContainers() {
+  }
 
 
 }

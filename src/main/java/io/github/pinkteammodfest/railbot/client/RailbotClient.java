@@ -1,6 +1,7 @@
 package io.github.pinkteammodfest.railbot.client;
 
 import io.github.pinkteammodfest.railbot.client.renderer.RobotEntityRenderer;
+import io.github.pinkteammodfest.railbot.client.screen.RailbotScreens;
 import io.github.pinkteammodfest.railbot.entity.RailbotEntities;
 import io.github.pinkteammodfest.railbot.network.RailbotNetworking;
 import net.fabricmc.api.ClientModInitializer;
@@ -17,5 +18,6 @@ public enum RailbotClient implements ClientModInitializer {
     RailbotNetworking.handleClientboundPackets();
 
     EntityRendererRegistry.INSTANCE.register(RailbotEntities.ROBOT, ((entityRenderDispatcher, context) -> new RobotEntityRenderer(entityRenderDispatcher)));
+    RailbotScreens.init();
   }
 }

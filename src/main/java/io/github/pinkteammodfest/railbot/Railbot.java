@@ -40,7 +40,6 @@ public enum Railbot implements ModInitializer {
     RailbotNetworking.handleServerboundPackets();
     RailbotBlockEntities.init();
     RailbotContainers.init();
-    RailbotScreens.init();
 
   }
 }
